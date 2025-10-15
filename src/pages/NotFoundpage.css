@@ -1,0 +1,97 @@
+/* Full screen setup */
+.page404 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  font-family: 'Arial', sans-serif;
+  color: white;
+  overflow: hidden;
+}
+
+.container {
+  text-align: center;
+  position: relative;
+}
+
+/* Error Code */
+.error-code {
+  font-size: 8rem;
+  margin: 0;
+  animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* Error Text */
+.error-text {
+  font-size: 1.5rem;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.error-subtext {
+  margin-bottom: 2rem;
+  opacity: 0.8;
+}
+
+/* Home button */
+.home-btn {
+  padding: 0.8rem 2rem;
+  background: #ff4081;
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.home-btn:hover {
+  background: #ff79a8;
+  transform: scale(1.05);
+}
+
+/* Astronaut animation */
+.astronaut {
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 100px;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(10deg); }
+}
+
+.helmet {
+  width: 50px;
+  height: 50px;
+  background: white;
+  border-radius: 50%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.visor {
+  width: 30px;
+  height: 15px;
+  background: #1e3c72;
+  border-radius: 10px;
+  position: absolute;
+  top: 15px;
+  left: 10px;
+}
+
+.body {
+  width: 20px;
+  height: 50px;
+  background: white;
+  margin: 0 auto;
+  border-radius: 5px;
+  margin-top: -5px;
+}

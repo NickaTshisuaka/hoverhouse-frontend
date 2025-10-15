@@ -1,0 +1,75 @@
+.faq-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #4b5d67, #7d94a6, #e8e4d8);
+  color: #fff;
+  padding: 4rem 10%;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+}
+
+.faq-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.faq-container p {
+  color: #e0e0e0;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+/* FAQ Cards */
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.faq-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  padding: 1.2rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.faq-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-4px);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-question h3 {
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.faq-question span {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  color: #e8e4d8;
+  line-height: 1.6;
+}
+
+.faq-item.open .faq-answer {
+  max-height: 500px;
+  margin-top: 0.8rem;
+}
+
+.faq-item.open .faq-question span {
+  transform: rotate(180deg);
+  color: #e8e4d8;
+}
