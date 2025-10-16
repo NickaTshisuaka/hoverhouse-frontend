@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import animationData from "../assets/animations/Home.json";
 import axios from "axios";
 import "./AuthPage.css";
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL;
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -35,9 +35,7 @@ export default function AuthPage() {
 
   const showMessage = (text, type, redirect = false) => {
     setMessage({ text, type });
-    if (redirect) {
-      setTimeout(() => navigate("/dashboard"), 2000);
-    }
+    if (redirect) setTimeout(() => navigate("/dashboard"), 2000);
     setTimeout(() => setMessage(null), 2000);
   };
 
@@ -46,18 +44,16 @@ export default function AuthPage() {
     setForm({ name: "", email: "", password: "" });
   };
 
-  // Determine panel order and colors
   const formSide = isSignIn ? "right" : "left";
   const animSide = isSignIn ? "left" : "right";
 
-  const formBg = isSignIn ? "#ffe4c4" : "#001f3f"; // Blanched Almond / Navy
+  const formBg = isSignIn ? "#ffe4c4" : "#001f3f";
   const animBg = isSignIn ? "#001f3f" : "#ffe4c4";
-  const messageBg = isSignIn ? "#001f3f" : "#ffe4c4"; // always opposite
+  const messageBg = isSignIn ? "#001f3f" : "#ffe4c4";
   const messageColor = isSignIn ? "#ffe4c4" : "#001f3f";
 
   return (
     <div className="auth-container">
-      {/* Pop-up */}
       <AnimatePresence>
         {message && (
           <motion.div
@@ -73,7 +69,6 @@ export default function AuthPage() {
         )}
       </AnimatePresence>
 
-      {/* Animation Panel */}
       <motion.div
         className={`auth-panel ${animSide}`}
         animate={{ x: 0 }}
@@ -83,7 +78,6 @@ export default function AuthPage() {
         <Lottie animationData={animationData} loop autoplay style={{ width: "90%", height: "130%" }} />
       </motion.div>
 
-      {/* Form Panel */}
       <motion.div
         className={`auth-panel ${formSide}`}
         animate={{ x: 0 }}
@@ -113,11 +107,7 @@ export default function AuthPage() {
             <button type="submit">{isSignIn ? "Login" : "Sign Up"}</button>
           </form>
           <p className="switch-text" onClick={toggleAuth}>
-            {isSignIn ? (
-              <>Don’t have an account? <span>Register here</span></>
-            ) : (
-              <>Already have an account? <span>Login here</span></>
-            )}
+            {isSignIn ? <>Don’t have an account? <span>Register here</span></> : <>Already have an account? <span>Login here</span></>}
           </p>
         </motion.div>
       </motion.div>

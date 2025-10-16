@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./ProductDetail.css";
 
+const API = import.meta.env.VITE_API_URL;
+
 export default function ProductDetail() {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const navigate = useNavigate();
   const [house, setHouse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,7 @@ export default function ProductDetail() {
   useEffect(() => {
     const fetchHouse = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/properties/${id}`);
+        const res = await axios.get(`${API}/properties/${id}`);
         setHouse(res.data);
       } catch (err) {
         console.error("Error fetching property:", err);
@@ -21,7 +23,6 @@ export default function ProductDetail() {
         setLoading(false);
       }
     };
-
     fetchHouse();
   }, [id]);
 

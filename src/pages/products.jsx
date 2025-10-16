@@ -3,16 +3,18 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./products.css";
 
+const API = import.meta.env.VITE_API_URL;
+
 export default function Products() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [popup, setPopup] = useState(null); // popup message
+  const [popup, setPopup] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/properties");
+        const res = await axios.get(`${API}/properties`);
         setProperties(res.data);
       } catch (err) {
         console.error("Error fetching properties:", err);
@@ -23,32 +25,23 @@ export default function Products() {
     fetchProperties();
   }, []);
 
-  // Helper to show popup
   const showPopup = (message) => {
     setPopup(message);
-    // clear any previous timeout to prevent overlap
     clearTimeout(window.popupTimeout);
-    window.popupTimeout = setTimeout(() => {
-      setPopup(null);
-    }, 2500);
+    window.popupTimeout = setTimeout(() => setPopup(null), 2500);
   };
 
-  // Add to favourites
   const handleAddToFavourites = (property) => {
     const savedFavourites = JSON.parse(localStorage.getItem("favourites")) || [];
-
     if (savedFavourites.includes(property._id)) {
       showPopup(`${property.title} is already in your favourites!`);
       return;
     }
-
     localStorage.setItem("favourites", JSON.stringify([...savedFavourites, property._id]));
     showPopup(`${property.title} added to favourites!`);
   };
 
-  const handleViewDetails = (id) => {
-    navigate(`/products/${id}`);
-  };
+  const handleViewDetails = (id) => navigate(`/products/${id}`);
 
   if (loading) return <p style={{ textAlign: "center" }}>Loading properties...</p>;
 

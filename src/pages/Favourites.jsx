@@ -3,18 +3,18 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Favourites.css";
 
+const API = import.meta.env.VITE_API_URL;
+
 export default function Favourites() {
   const [favourites, setFavourites] = useState([]);
-  const [properties, setProperties] = useState([]);
-  const API = "http://localhost:5000/api/properties";
 
   useEffect(() => {
     const fetchFavourites = async () => {
       const savedFavIds = JSON.parse(localStorage.getItem("favourites")) || [];
-      if (savedFavIds.length === 0) return setFavourites([]);
+      if (!savedFavIds.length) return setFavourites([]);
 
       try {
-        const res = await axios.get(API); // fetch all properties
+        const res = await axios.get(`${API}/properties`);
         const favProperties = res.data.filter((p) => savedFavIds.includes(p._id));
         setFavourites(favProperties);
       } catch (err) {
@@ -28,10 +28,7 @@ export default function Favourites() {
     const updatedFavs = favourites.filter((fav) => fav._id !== id);
     setFavourites(updatedFavs);
     const savedFavIds = JSON.parse(localStorage.getItem("favourites")) || [];
-    localStorage.setItem(
-      "favourites",
-      JSON.stringify(savedFavIds.filter((favId) => favId !== id))
-    );
+    localStorage.setItem("favourites", JSON.stringify(savedFavIds.filter((favId) => favId !== id)));
   };
 
   return (

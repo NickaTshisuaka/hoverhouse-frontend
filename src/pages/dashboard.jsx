@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./dashboard.css";
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL;
 
 export default function Dashboard() {
   const [properties, setProperties] = useState([]);
@@ -17,32 +17,19 @@ export default function Dashboard() {
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        const res = await axios.get(`${API}/properties`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(`${API}/properties`, { headers: { Authorization: `Bearer ${token}` } });
 
-        if (res.data.length > 0) {
-          // Take only the first two properties
-          setProperties(res.data.slice(1, 2));
-        }
+        if (res.data.length > 0) setProperties(res.data.slice(1, 2));
       } catch (err) {
         console.error("Error fetching properties:", err.response?.data || err.message);
       }
     };
-
     fetchProperties();
   }, []);
 
-  const handleProtectedNav = (path) => {
-    if (isAuthenticated()) navigate(path);
-    else navigate("/signin");
-  };
+  const handleProtectedNav = (path) => isAuthenticated() ? navigate(path) : navigate("/signin");
 
-  const stats = {
-    totalProperties: properties.length,
-    inquiries: 12,
-    sales: 5,
-  };
+  const stats = { totalProperties: properties.length, inquiries: 12, sales: 5 };
 
   return (
     <div className="dashboard-container">
