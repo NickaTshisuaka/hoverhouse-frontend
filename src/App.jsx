@@ -9,7 +9,7 @@ import {
 
 import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/dashboard";
-import Products from "./pages/Products";
+import Products from "./pages/products";
 import ProductDetail from "./pages/ProductDetail";
 import Favourites from "./pages/Favourites";
 import NotFoundpage from "./pages/NotFoundpage";
