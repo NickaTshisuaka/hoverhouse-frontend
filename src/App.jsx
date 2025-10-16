@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import AuthPage from "./pages/AuthPage";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Favourites from "./pages/Favourites";
