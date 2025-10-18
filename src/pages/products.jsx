@@ -65,9 +65,9 @@ export default function Products() {
 
       {/* Product Grid */}
       <div className="products-grid">
-        {properties.map((property) => {
-          // dynamically build local image path
-          const imageSrc = `/images/${property.image}`;
+       {properties.map((property) => {
+  // property.image already includes "/images/house1.jpg"
+  const imageSrc = property.image;
 
           return (
             <div className="product-card" key={property._id}>
