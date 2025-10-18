@@ -165,6 +165,15 @@
   transform: translate(-50%, -50%) scale(1);
   animation: fadeInOutCenter 2.5s ease forwards;
 }
+.product-card img {
+  background: linear-gradient(90deg, #eee, #f9f9f9, #eee);
+  background-size: 400% 400%;
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
 
 @keyframes fadeInOutCenter {
   0% {
