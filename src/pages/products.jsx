@@ -65,9 +65,9 @@ export default function Products() {
 
       {/* Product Grid */}
       <div className="products-grid">
-       {properties.map((property) => {
-  // property.image already includes "/images/house1.jpg"
-  const imageSrc = property.image;
+        {properties.map((property) => {
+          // ✅ Load from frontend/public/images/
+          const imageSrc = `/images/${property.image}`;
 
           return (
             <div className="product-card" key={property._id}>
@@ -77,7 +77,7 @@ export default function Products() {
                 alt={property.title}
                 loading="lazy"
                 onError={(e) => {
-                  e.target.src = "/images/fallback.jpg"; // fallback image in /public/images
+                  e.target.src = "/images/fallback.jpg"; // fallback image
                 }}
                 style={{
                   width: "100%",
