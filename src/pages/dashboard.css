@@ -17,7 +17,7 @@ body {
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 90vh;
 }
 
 /* Parallax Header */
@@ -26,7 +26,7 @@ body {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  height: 90vh;
+  height: 75vh;
   display: flex;
   align-items: center;
   justify-content: center;

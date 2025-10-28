@@ -3,31 +3,55 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./dashboard.css";
 
-const API = import.meta.env.VITE_API_URL;
+const API = import.meta.env.VITE_API_URL; // make sure it ends with /api
 
 export default function Dashboard() {
   const [properties, setProperties] = useState([]);
+  const [firstName, setFirstName] = useState("User");
   const navigate = useNavigate();
 
   const isAuthenticated = () => !!localStorage.getItem("token");
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    // Fetch user's name
+    const fetchUserName = async () => {
+      try {
+        const res = await fetch(`${API}/users/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to fetch user");
+
+        const first = data.name ? data.name.split(" ")[0] : "User";
+        setFirstName(first);
+      } catch (err) {
+        console.error("Error fetching user:", err.message);
+      }
+    };
+
+    // Fetch properties
     const fetchProperties = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-
-        const res = await axios.get(`${API}/properties`, { headers: { Authorization: `Bearer ${token}` } });
-
-        if (res.data.length > 0) setProperties(res.data.slice(1, 2));
+        const res = await axios.get(`${API}/properties`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.data.length > 0) {
+          setProperties(res.data.slice(0, 2));
+        }
       } catch (err) {
         console.error("Error fetching properties:", err.response?.data || err.message);
       }
     };
+
+    fetchUserName();
     fetchProperties();
   }, []);
 
-  const handleProtectedNav = (path) => isAuthenticated() ? navigate(path) : navigate("/signin");
+  const handleProtectedNav = (path) =>
+    isAuthenticated() ? navigate(path) : navigate("/signin");
 
   const stats = { totalProperties: properties.length, inquiries: 12, sales: 5 };
 
@@ -35,23 +59,19 @@ export default function Dashboard() {
     <div className="dashboard-container">
       {/* Parallax Header */}
       <header className="dashboard-header">
-  <div className="header-overlay">
-    <h1>
-      Enter the gates of elegance, {" "}
-      {(() => {
-        const user = JSON.parse(localStorage.getItem("user")) || { name: "User" };
-        // Get first name only
-        const firstName = user.name ? user.name.split(" ")[0] : "User";
-        return firstName;
-      })()}
-      
-    </h1>
-    <button className="nav-button" onClick={() => handleProtectedNav("/products")}>
-      View Listings
-    </button>
-  </div>
-</header>
-
+        <div className="header-overlay">
+          <h1>
+            Enter the gates of elegance,{" "}
+            <span className="username">{firstName}</span>
+          </h1>
+          <button
+            className="nav-button"
+            onClick={() => handleProtectedNav("/products")}
+          >
+            View Listings
+          </button>
+        </div>
+      </header>
 
       <main className="dashboard-main">
         {/* Properties */}
@@ -63,7 +83,10 @@ export default function Dashboard() {
             <div className="property-grid">
               {properties.map((p) => (
                 <div key={p._id} className="property-preview">
-                  <img src={p.image || "https://via.placeholder.com/300"} alt={p.title} />
+                  <img
+                    src={p.image || "https://via.placeholder.com/300"}
+                    alt={p.title}
+                  />
                   <h3>{p.title}</h3>
                   <p>{p.location}</p>
                   <p className="price">R {p.price.toLocaleString()}</p>
@@ -78,7 +101,9 @@ export default function Dashboard() {
           <div className="icon">➕</div>
           <h2>Add New Property</h2>
           <p>Create a new listing with images, features, and pricing details.</p>
-          <button onClick={() => handleProtectedNav("/products")}>Add Property</button>
+          <button onClick={() => handleProtectedNav("/products")}>
+            Add Property
+          </button>
         </section>
 
         {/* Analytics */}
@@ -86,7 +111,9 @@ export default function Dashboard() {
           <div className="icon">📊</div>
           <h2>Analytics</h2>
           <p>View insights into engagement, inquiries, and market trends.</p>
-          <button onClick={() => handleProtectedNav("/analytics")}>View Insights</button>
+          <button onClick={() => handleProtectedNav("/analytics")}>
+            View Insights
+          </button>
         </section>
 
         {/* Stats */}
@@ -106,12 +133,38 @@ export default function Dashboard() {
           <h2>What Our Users Say</h2>
           <div className="testimonial-grid">
             {[
-              { name: "Sarah M.", image: "https://randomuser.me/api/portraits/women/44.jpg", quote: "HoverHouse helped me find my dream property fast!" },
-              { name: "James K.", image: "https://randomuser.me/api/portraits/men/34.jpg", quote: "Great platform, very intuitive and easy to use." },
-              { name: "Linda P.", image: "https://randomuser.me/api/portraits/women/65.jpg", quote: "I love the analytics dashboard—it really helps track my listings." },
-              { name: "Mark T.", image: "https://randomuser.me/api/portraits/men/22.jpg", quote: "The support team is amazing, very responsive!" },
-              { name: "Emily R.", image: "https://randomuser.me/api/portraits/women/12.jpg", quote: "Finding properties has never been easier." },
-              { name: "David L.", image: "https://randomuser.me/api/portraits/men/50.jpg", quote: "HoverHouse saved me so much time!" },
+              {
+                name: "Sarah M.",
+                image: "https://randomuser.me/api/portraits/women/44.jpg",
+                quote:
+                  "HoverHouse helped me find my dream property fast!",
+              },
+              {
+                name: "James K.",
+                image: "https://randomuser.me/api/portraits/men/34.jpg",
+                quote: "Great platform, very intuitive and easy to use.",
+              },
+              {
+                name: "Linda P.",
+                image: "https://randomuser.me/api/portraits/women/65.jpg",
+                quote:
+                  "I love the analytics dashboard—it really helps track my listings.",
+              },
+              {
+                name: "Mark T.",
+                image: "https://randomuser.me/api/portraits/men/22.jpg",
+                quote: "The support team is amazing, very responsive!",
+              },
+              {
+                name: "Emily R.",
+                image: "https://randomuser.me/api/portraits/women/12.jpg",
+                quote: "Finding properties has never been easier.",
+              },
+              {
+                name: "David L.",
+                image: "https://randomuser.me/api/portraits/men/50.jpg",
+                quote: "HoverHouse saved me so much time!",
+              },
             ].map((t, idx) => (
               <div key={idx} className="testimonial">
                 <img src={t.image} alt={t.name} />
@@ -133,13 +186,14 @@ export default function Dashboard() {
               "Property sold: Luxury Loft Downtown",
               "New property added: Beachfront Condo in Cape Town",
               "Inquiry received from Anna S. on City Center Flat",
-              "Property sold: Penthouse in Johannesburg"
+              "Property sold: Penthouse in Johannesburg",
             ].map((item, idx) => (
-              <div key={idx} className="activity-item">{item}</div>
+              <div key={idx} className="activity-item">
+                {item}
+              </div>
             ))}
           </div>
         </section>
-
       </main>
     </div>
   );

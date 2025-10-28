@@ -10,6 +10,7 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const [house, setHouse] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     const fetchHouse = async () => {
@@ -26,13 +27,31 @@ export default function ProductDetail() {
     fetchHouse();
   }, [id]);
 
+  const handleImageError = () => {
+    setImageError(true);
+    console.error(`Failed to load image for property: ${house?.title}`);
+  };
+
   if (loading) return <div className="loading">Loading house details...</div>;
   if (!house) return <div className="loading">Property not found.</div>;
 
   return (
     <div className="product-detail">
       <div className="detail-image">
-        <img src={house.image} alt={house.title} />
+        {/* ✅ Use the full image URL directly from the database with error handling */}
+        <img 
+          src={imageError 
+            ? "https://via.placeholder.com/800x500?text=Image+Not+Available" 
+            : house.image
+          } 
+          alt={house.title}
+          onError={handleImageError}
+          style={{
+            width: "100%",
+            height: "auto",
+            objectFit: "cover",
+          }}
+        />
       </div>
 
       <div className="detail-content">
@@ -40,34 +59,64 @@ export default function ProductDetail() {
         <p className="location">{house.location}</p>
         <h2 className="price">R {house.price.toLocaleString()}</h2>
 
-        <p className="description">{house.description}</p>
-
-        <div className="details-grid">
-          <div><strong>Bedrooms:</strong> {house.details?.bedrooms || "-"}</div>
-          <div><strong>Bathrooms:</strong> {house.details?.bathrooms || "-"}</div>
-          <div><strong>Garages:</strong> {house.details?.garages || "-"}</div>
-          <div><strong>Living Rooms:</strong> {house.details?.livingRooms || "-"}</div>
-          <div><strong>Kitchen:</strong> {house.details?.kitchen || "-"}</div>
-          <div><strong>Floor Size:</strong> {house.details?.floorSize || "-"}</div>
-          <div><strong>Erf Size:</strong> {house.details?.erfSize || "-"}</div>
-          <div><strong>Year Built:</strong> {house.details?.yearBuilt || "-"}</div>
+        <div className="description-section">
+          <h3>Description</h3>
+          <p className="description">{house.description}</p>
         </div>
 
-       <div className="button-row">
-  <button
-    className="back-btn"
-    onClick={() => navigate("/products")}
-  >
-    Return to Listings
-  </button>
-  <button
-    className="view-btn"
-    onClick={() => navigate(`/book-tour/${house._id}`)}
-  >
-    Schedule Viewing
-  </button>
-</div>
+        {/* Features Section */}
+        {house.features && house.features.length > 0 && (
+          <div className="features-section">
+            <h3>Features</h3>
+            <ul className="features-list">
+              {house.features.map((feature, index) => (
+                <li key={index}>{feature}</li>
+              ))}
+            </ul>
+          </div>
+        )}
 
+        {/* Tags Section */}
+        {house.tags && house.tags.length > 0 && (
+          <div className="tags-section">
+            <h3>Tags</h3>
+            <div className="tags-container">
+              {house.tags.map((tag, index) => (
+                <span key={index} className="tag">{tag}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Property Details Grid */}
+        {/* <div className="details-section">
+          <h3>Property Details</h3>
+          <div className="details-grid">
+            <div><strong>Bedrooms:</strong> {house.details?.bedrooms || "-"}</div>
+            <div><strong>Bathrooms:</strong> {house.details?.bathrooms || "-"}</div>
+            <div><strong>Garages:</strong> {house.details?.garages || "-"}</div>
+            <div><strong>Living Rooms:</strong> {house.details?.livingRooms || "-"}</div>
+            <div><strong>Kitchen:</strong> {house.details?.kitchen || "-"}</div>
+            <div><strong>Floor Size:</strong> {house.details?.floorSize || "-"}</div>
+            <div><strong>Erf Size:</strong> {house.details?.erfSize || "-"}</div>
+            <div><strong>Year Built:</strong> {house.details?.yearBuilt || "-"}</div>
+          </div>
+        </div> */}
+
+        <div className="button-row">
+          <button
+            className="back-btn"
+            onClick={() => navigate("/products")}
+          >
+            Return to Listings
+          </button>
+          <button
+            className="view-btn"
+            onClick={() => navigate(`/book-tour/${house._id}`)}
+          >
+            Schedule Viewing
+          </button>
+        </div>
       </div>
     </div>
   );

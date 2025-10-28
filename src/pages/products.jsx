@@ -66,18 +66,20 @@ export default function Products() {
       {/* Product Grid */}
       <div className="products-grid">
         {properties.map((property) => {
-          // ✅ Load from frontend/public/images/
-          const imageSrc = `/images/${property.image}`;
+          // ✅ Use the full image URL directly from the database
+          const imageSrc = property.image;
 
           return (
             <div className="product-card" key={property._id}>
-              {/* 🖼️ Local image loading with fallback + lazy loading */}
+              {/* 🖼️ External image loading with fallback + lazy loading */}
               <img
                 src={imageSrc}
                 alt={property.title}
                 loading="lazy"
                 onError={(e) => {
-                  e.target.src = "/images/fallback.jpg"; // fallback image
+                  // Fallback to a placeholder if image fails to load
+                  e.target.src = "https://via.placeholder.com/400x250?text=Image+Not+Available";
+                  console.error(`Failed to load image for: ${property.title}`);
                 }}
                 style={{
                   width: "100%",

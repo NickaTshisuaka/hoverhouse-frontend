@@ -1,87 +1,115 @@
-/* BookTour.css */
+/* === PAGE LAYOUT === */
+.booktour-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 70vh;
+  background: linear-gradient(135deg, #f7f4ef 0%, #ece8e0 100%);
+  color: #1c1c1c;
+  font-family: "Inter", sans-serif;
+}
 
-/* === PAGE WRAPPER === */
-.book-tour-wrapper {
+/* === LEFT: PROPERTY SHOWCASE === */
+.booktour-left {
   position: relative;
   overflow: hidden;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 3rem 2rem;
-  background: linear-gradient(135deg, #f5f3ef 0%, #ece8e0 100%);
-  font-family: "Inter", sans-serif;
-  color: #1c1c1c;
 }
 
-/* === FLOATING BACKGROUND BLOBS === */
-.book-tour-wrapper::before,
-.book-tour-wrapper::after {
-  content: "";
+.property-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(80%);
+  transition: transform 0.8s ease, filter 0.8s ease;
+}
+
+.booktour-left:hover .property-image {
+  transform: scale(1.04);
+  filter: brightness(93%);
+}
+
+.property-info {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  z-index: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 2.5rem;
+  background: linear-gradient(to top, rgba(28, 53, 87, 0.8), rgba(28, 53, 87, 0.2));
+  color: #fff;
+  backdrop-filter: blur(3px);
+  animation: slideUpInfo 0.8s ease forwards;
 }
 
-.book-tour-wrapper::before {
-  width: 600px;
-  height: 600px;
-  top: -150px;
-  left: -200px;
-  background: radial-gradient(circle at center, rgba(28, 53, 87, 0.25), transparent 70%);
-  animation: floatBlob 20s ease-in-out infinite alternate;
-}
-
-.book-tour-wrapper::after {
-  width: 500px;
-  height: 500px;
-  bottom: -180px;
-  right: -200px;
-  background: radial-gradient(circle at center, rgba(221, 199, 162, 0.3), transparent 70%);
-  animation: floatBlob 25s ease-in-out infinite alternate-reverse;
-}
-
-@keyframes floatBlob {
-  from { transform: translateY(0) scale(1); }
-  to { transform: translateY(-40px) scale(1.05); }
-}
-
-/* === HEADER === */
-.book-tour-wrapper > * {
-  position: relative;
-  z-index: 1;
-}
-
-.book-tour-wrapper h1 {
-  font-size: 2.4rem;
+.property-info h1 {
+  font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: #1c3557;
-  animation: fadeInDown 0.8s ease forwards;
+  letter-spacing: 0.5px;
 }
 
-.book-tour-wrapper p {
+.property-info .location {
   font-size: 1.1rem;
-  margin-bottom: 2rem;
-  color: #4a4a4a;
-  text-align: center;
-  animation: fadeInDown 1s ease forwards;
+  opacity: 0.9;
+  margin-bottom: 0.3rem;
 }
 
-/* === FORM CONTAINER === */
-.tour-form {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
-  padding: 2.5rem;
-  max-width: 600px;
-  width: 100%;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  display: grid;
-  gap: 1rem;
+.property-info .price {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #f8d8a6;
+  margin-bottom: 1rem;
+}
+
+.property-info .features {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.property-info .features li {
+  font-size: 1rem;
+  opacity: 0.95;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* === RIGHT: BOOKING FORM === */
+.booktour-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 3rem;
+  position: relative;
   animation: fadeInUp 1s ease forwards;
-  backdrop-filter: blur(8px);
+}
+
+.booktour-right h2 {
+  font-size: 2rem;
+  color: #1c3557;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.booktour-right p {
+  font-size: 1.05rem;
+  color: #555;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* === FORM STYLING === */
+.tour-form {
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  padding: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  backdrop-filter: blur(6px);
   transition: transform 0.3s ease;
 }
 
@@ -89,19 +117,21 @@
   transform: scale(1.01);
 }
 
-/* === INPUT FIELDS === */
+/* Inputs */
 .tour-form input,
 .tour-form select,
 .tour-form textarea {
-  width: 100%;
-  padding: 0.9rem 1rem;
-  border: 1px solid #ccd2d9;
+  width: 90%;
+  padding: 0.9rem 0.4rem;
+  border: 1px solid #d3d7dc;
   border-radius: 10px;
   font-size: 1rem;
   background: #fff;
   transition: all 0.3s ease;
 }
-
+/* .tour-form select{
+  width: 10%;
+} */
 .tour-form input:focus,
 .tour-form select:focus,
 .tour-form textarea:focus {
@@ -110,18 +140,36 @@
   box-shadow: 0 0 10px rgba(28, 53, 87, 0.2);
 }
 
+/* === FORM ROW (DATE / TIME / ATTENDEES) === */
+.form-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.form-row > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
 /* === CHECKBOX === */
 .checkbox-label {
   display: flex;
-  align-items: flex-end;
-  gap: 0rem;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 0.9rem;
   color: #444;
 }
 
 .checkbox-label input {
   transform: scale(1.2);
-  cursor: pointer;
 }
 
 /* === BUTTONS === */
@@ -129,7 +177,7 @@
   background: #1c3557;
   color: #fff;
   border: none;
-  padding: 0.9rem;
+  padding: 0.95rem;
   font-size: 1rem;
   font-weight: 600;
   border-radius: 8px;
@@ -145,7 +193,6 @@
 
 .btn-secondary {
   display: inline-block;
-  text-align: center;
   background: #f0e6d6;
   color: #1c3557;
   border: 1px solid #d1c7b7;
@@ -183,7 +230,6 @@
   border-radius: 22px;
   max-width: 520px;
   width: 90%;
-  height: 40%;
   text-align: center;
   box-shadow: 0 12px 35px rgba(28, 53, 87, 0.25);
   border: 1.5px solid rgba(221, 199, 162, 0.6);
@@ -192,46 +238,29 @@
   overflow: hidden;
 }
 
-/* Gradient shimmer border */
-.confirmation-modal::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(120deg, rgba(221,199,162,0.4), rgba(28,53,87,0.15));
-  opacity: 0.6;
-  z-index: -1;
-}
-
-/* Floating success checkmark */
 .confirmation-modal::after {
   content: "✔";
   position: absolute;
-  top: 10px;
+  top: 15px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 3.5rem;
+  font-size: 3rem;
   color: #1c3557;
   background: #f7f3ec;
   border-radius: 50%;
-  width: 65px;
+  width: 60px;
   height: 60px;
-  line-height: 65px;
+  line-height: 60px;
   border: 2px solid #ddc7a2;
-  box-shadow: 0 0 10px rgba(221,199,162,0.4);
   animation: popIn 0.6s ease forwards;
 }
 
-/* === TEXT ANIMATION SEQUENCE === */
 .confirmation-modal h2 {
   color: #1c3557;
   margin-top: 2.3rem;
   margin-bottom: 1rem;
   font-weight: 700;
   font-size: 1.7rem;
-  opacity: 0;
-  transform: translateY(-10px);
-  animation: fadeSlideIn 0.8s 0.3s ease forwards;
 }
 
 .confirmation-modal p {
@@ -239,79 +268,81 @@
   color: #4a4a4a;
   line-height: 1.7;
   font-size: 1rem;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeSlideIn 0.8s 0.6s ease forwards;
 }
 
-/* === BUTTON LAYOUT === */
-.confirmation-modal .button-group {
+.button-group {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
-  align-items: center;
-  justify-content: center;
+  gap: 1rem;
   margin-top: 1.2rem;
-  opacity: 0;
-  animation: fadeSlideIn 0.8s 0.9s ease forwards;
-}
-
-/* === BUTTONS === */
-.confirmation-modal .btn-primary {
-  background: #1c3557;
-  color: #fff;
-  padding: 0.8rem 1.4rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 80%;
-  max-width: 280px;
-}
-
-.confirmation-modal .btn-primary:hover {
-  background: #2a4b7c;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(28, 53, 87, 0.3);
-}
-
-.confirmation-modal .btn-secondary {
-  background: #f3ebdd;
-  color: #1c3557;
-  border: 1px solid #ddc7a2;
-  padding: 0.8rem 1.4rem;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 500;
-  width: 80%;
-  max-width: 280px;
-  transition: all 0.3s ease;
-}
-
-.confirmation-modal .btn-secondary:hover {
-  background: #e6dbc9;
-  transform: translateY(-2px);
+  align-items: center;
 }
 
 /* === ANIMATIONS === */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes modalPop {
-  0% { transform: translateY(40px) scale(0.9); opacity: 0; }
-  100% { transform: translateY(0) scale(1); opacity: 1; }
+  0% {
+    transform: translateY(40px) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes popIn {
-  0% { transform: translate(-50%, 20px) scale(0.5); opacity: 0; }
-  100% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+  0% {
+    transform: translate(-50%, 20px) scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 1;
+  }
 }
 
-@keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes slideUpInfo {
+  from {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .booktour-page {
+    grid-template-columns: 1fr;
+  }
+
+  .booktour-left {
+    height: 45vh;
+  }
+
+  .booktour-right {
+    padding: 2.5rem 1.5rem;
+  }
 }
