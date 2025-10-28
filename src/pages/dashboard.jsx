@@ -61,7 +61,7 @@ export default function Dashboard() {
       <header className="dashboard-header">
         <div className="header-overlay">
           <h1>
-            Enter the gates of elegance,{" "}
+            Enter the gates of elegance
             <span className="username">{firstName}</span>
           </h1>
           <button
