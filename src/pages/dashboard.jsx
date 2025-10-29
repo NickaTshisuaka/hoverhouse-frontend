@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./dashboard.css";
 
-const API = import.meta.env.VITE_API_URL; // make sure it ends with /api
+const API = import.meta.env.VITE_API_URL; 
 
 export default function Dashboard() {
   const [properties, setProperties] = useState([]);
@@ -61,8 +61,8 @@ export default function Dashboard() {
       <header className="dashboard-header">
         <div className="header-overlay">
           <h1>
-            Enter the gates of elegance
-            <span className="username">{firstName}</span>
+            Come on, enter the gates of elegance.
+            
           </h1>
           <button
             className="nav-button"
